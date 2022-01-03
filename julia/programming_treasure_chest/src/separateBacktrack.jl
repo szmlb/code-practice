@@ -3,71 +3,71 @@ using Logging
 
 Logging.disable_logging(Logging.Info)
 
-mutable struct separate_data
+mutable struct Separator
     n::Int
     separator::Int
     value::Array{Int}
     sep_pos::Array{Int}
     best_sep_pos::Array{Int}
     best_sep_max_value::Int
-    separate_data() = new()
+    Separator() = new()
 end
 
 # 分割を実装する再帰関数
-function separate(sd, pos, num)
+function separate(self::Separator, pos, num)
 
     # 新しい分割場所を設定
-    sd.sep_pos[num] = pos
+    self.sep_pos[num] = pos
     num = num + 1
 
     # 分割がすべて決まったら
-    if num == sd.separator+1
+    if num == self.separator+1
         max = 0
 
         # 設定された分割で，最大のグループ和を算出する
-        for i in 1:sd.separator+1
+        for i in 1:self.separator+1
             if i == 1
                 _start = 1
-                _end = sd.sep_pos[i]
-            elseif i == sd.separator+1
-                _start = sd.sep_pos[i-1]+1
-                _end = sd.n
+                _end = self.sep_pos[i]
+            elseif i == self.separator+1
+                _start = self.sep_pos[i-1]+1
+                _end = self.n
             else
-                _start = sd.sep_pos[i-1]+1
-                _end = sd.sep_pos[i]
+                _start = self.sep_pos[i-1]+1
+                _end = self.sep_pos[i]
             end
             k = 0
             for j in _start:_end
-                k = k + sd.value[j]
+                k = k + self.value[j]
             end
             if k > max
                 max = k
             end
         end
 
-        @info "sep_pos" sd.sep_pos
+        @info "sep_pos" self.sep_pos
 
         # 最大のグループ和が保存されている和より小さければ
-        if max < sd.best_sep_max_value
+        if max < self.best_sep_max_value
             # 現在の分割を保存する
-            sd.best_sep_max_value = max
-            for i in 1:sd.separator
-                sd.best_sep_pos[i] = sd.sep_pos[i]
+            self.best_sep_max_value = max
+            for i in 1:self.separator
+                self.best_sep_pos[i] = self.sep_pos[i]
             end
         end
         return
     end
 
     # 次の分割場所を設定する
-    for i_pos in pos+1:sd.n-sd.separator+num
-        separate(sd, i_pos, num)
+    for i_pos in pos+1:self.n-self.separator+num
+        separate(self, i_pos, num)
     end
 end
 
 function main()
 
+    sd  = Separator()
     # 与えられた値と，その分割方法
-    sd  = separate_data()
     sd.n = 10
     sd.separator = 3
     sd.value = [15, 3, 7, 6, 10, 4, 13, 2, 3, 6]
