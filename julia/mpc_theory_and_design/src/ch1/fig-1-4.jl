@@ -26,18 +26,13 @@ level = (2 - d/2)*2;
 xH, yH = ellipse(H, level, npts, h);
 
 # Make plot.
-PyPlot.plot(xA, yA, linestyle="-",marker="o", c="r")
-PyPlot.plot(xB, yB, linestyle="-",marker="o", c="b")
-PyPlot.plot(xH, yH, linestyle="-",marker="o", c="g")
+PyPlot.plot(xA, yA, linestyle="-", marker="o", c="r")
+PyPlot.plot(a[1], a[2], marker="o", c="r", label="a")
+PyPlot.plot(xB, yB, linestyle="-", marker="o", c="b")
+PyPlot.plot(b[1], b[2], marker="o", c="b", label="b")
+PyPlot.plot(xH, yH, linestyle="-", marker="o", c="g")
+PyPlot.plot(h[1], h[2], marker="o", c="g", label="h")
+PyPlot.xlabel("x1")
+PyPlot.ylabel("x2")
+PyPlot.legend();
 PyPlot.show()
-
-#@info xA
-#@info yA
-
-#=
-# Save data.
-data = struct();
-data.contours = [xA, yA, xB, yB, xH, yH];
-data.centers = [a', b', h'];
-gnuplotsave('nestedV.dat', data);
-=#

@@ -62,8 +62,8 @@ function ellipse(amat, x...)
 
         # Generate contour data.
 
-        a = 1 / l[1,1]^1/2[1];
-        b = 1 / l[2,2]^1/2[1];
+        a = 1 / l[1,1]^(1/2)[1];
+        b = 1 / l[2,2]^(1/2)[1];
 
         t = LinRange(0, 2*pi, n)';
 
@@ -90,17 +90,14 @@ function ellipse(amat, x...)
 
         t = [1; 1] * shift;
 
-        @info major
-        @info t
-
         major = major + t;
         minor = minor + t;
 
         # Bounding box for the ellipse using magic formula.
 
         ainv = inv(amat);
-        xbox = (level * ainv[1,1])^1/2;
-        ybox = (level * ainv[2,2])^1/2;
+        xbox = (level * ainv[1,1])^(1/2);
+        ybox = (level * ainv[2,2])^(1/2);
 
         bbox = [xbox ybox; xbox -ybox; -xbox -ybox; -xbox ybox; xbox ybox];
 
