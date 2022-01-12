@@ -41,9 +41,11 @@ end
 # キューにデータをpush
 function stack_push(val, stack)
 
+    _val = deepcopy(val)
+
     # スタックにBONSUUをプッシュする
     if length(stack) != 10
-        push!(stack, val)
+        push!(stack, _val)
     else
         error("スタックオーバーフローです。数字が大きすぎます\n")
     end
@@ -55,7 +57,7 @@ function stack_pop(stack)
 
     # スタックにBONSUUをプッシュする
     if length(stack) >= 0
-        popped = pop!(stack)
+        popped = deepcopy(pop!(stack))
     else
         error("スタックアンダーフローです。演算子の場所が違います\n")
     end
@@ -68,6 +70,8 @@ function main()
     stack_array = Array{tagBonsuu}(undef, 0)
     @printf "逆ポーランド記法で数式を入力してください\n"
     line = readline()
+
+    @info line
 
     for c in line
         st1 = tagBonsuu()
