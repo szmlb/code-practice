@@ -4,18 +4,14 @@ mutable struct tagStation
     max_station
     name
     transitions::Array{tagStation}
-    tagStation(max_station) = new(max_station)
+    tagStation(max_station, name) = new(max_station, name)
 end
 
 function init_station(self::tagStation, name::String)
     self.transitions = Array{tagStation}(undef, self.max_station)
     for i in 1:self.max_station
-        self.transitions[i] = tagStation(10)
+        self.transitions[i] = tagStation(10, "")
     end
-
-    #for i in 1:self.max_station
-    #    self.transitions[i] = nothing # 最初はどの駅ともつながっていない
-    #end
 
     self.name = name
 
@@ -40,7 +36,7 @@ function add_station(self::tagStation, transition::tagStation)
         return
     end
     # 新しい乗換駅を登録する
-    self.transitions[i] = deepcopy(transition)
+    self.transitions[i_result] = deepcopy(transition)
 
 end
 
@@ -49,7 +45,7 @@ function print_station(self::tagStation)
     @printf "%s: " self.name
     for i in 1:self.max_station
 
-         if self.transitions[i] == nothing
+         if isempty(self.transitions[i].name)
             break
         end
         @printf "-> %s " self.transitions[i].name
@@ -62,7 +58,7 @@ function main()
 
     station = Array{tagStation}(undef, 6)
     for i in 1:6
-        station[i] = tagStation(10)
+        station[i] = tagStation(10, "")
     end
 
     init_station(station[1], "鎌倉")
@@ -89,8 +85,8 @@ function main()
 
     # 横須賀・茅ヶ崎・東京
     add_station(station[4], station[1])
-    add_station(station[4], station[2])
-    add_station(station[4], station[3])
+    add_station(station[5], station[2])
+    add_station(station[6], station[3])
 
     for i in 1:6
         print_station(station[i])
