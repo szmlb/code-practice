@@ -54,7 +54,7 @@ function print_station(self::tagStation)
 
 end
 
-function main()
+function main_bidirectional()
 
     station = Array{tagStation}(undef, 6)
     for i in 1:6
@@ -93,6 +93,43 @@ function main()
     end
 end
 
+function main_unidirectional()
+
+    station = Array{tagStation}(undef, 6)
+    for i in 1:6
+        station[i] = tagStation(10, "")
+    end
+
+    init_station(station[1], "鎌倉")
+    init_station(station[2], "藤沢")
+    init_station(station[3], "横浜")
+    init_station(station[4], "横須賀")
+    init_station(station[5], "茅ヶ崎")
+    init_station(station[6], "東京")
+
+    # 鎌倉
+    add_station(station[1], station[4])
+    add_station(station[1], station[2])
+
+    # 藤沢
+    add_station(station[2], station[5])
+    add_station(station[2], station[3])
+
+    # 横浜
+    add_station(station[3], station[1])
+    add_station(station[3], station[6])
+
+    # 横須賀・茅ヶ崎・東京
+    add_station(station[4], station[1])
+    add_station(station[5], station[2])
+    add_station(station[6], station[3])
+
+    for i in 1:6
+        print_station(station[i])
+    end
+end
+
 if occursin(PROGRAM_FILE, @__FILE__)
-    main()
+    #main_bidirectional()
+    main_unidirectional()
 end
