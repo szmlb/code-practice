@@ -1,13 +1,23 @@
 using Printf
 
-function main_bidirectional()
+function main()
 
     station_number = 6
 
     station = ["鎌倉", "藤沢", "横浜", "横須賀", "茅ヶ崎", "東京"]
+
+    """
     adjacency_matrix = [0 1 1 1 0 0; 
                         1 0 1 0 1 0;
                         1 1 0 0 0 1;
+                        1 0 0 0 0 0;
+                        0 1 0 0 0 0;
+                        0 0 1 0 0 0]
+    """
+
+    adjacency_matrix = [0 1 0 1 0 0; 
+                        0 0 1 0 1 0;
+                        1 0 0 0 0 1;
                         1 0 0 0 0 0;
                         0 1 0 0 0 0;
                         0 0 1 0 0 0]
@@ -24,6 +34,5 @@ function main_bidirectional()
 end
 
 if occursin(PROGRAM_FILE, @__FILE__)
-    main_bidirectional()
-    #main_unidirectional()
+    main()
 end
