@@ -1,28 +1,29 @@
-
 module RobotWorld
 
+    abstract type Robot end
+    abstract type Camera end
+
     using Plots
-    using Parameters
     using Printf
 
-    @with_kw mutable struct Agent
+    mutable struct Agent
         nu::Float64
         omega::Float64
         Agent(nu, omega) = new(nu, omega)
     end
 
-    @with_kw mutable struct Landmark
+    mutable struct Landmark
         pos::Array{Float64}
         id::Int64
         Landmark(pos, id=-1) = new(pos, id)
     end
 
-    @with_kw mutable struct Map
+    mutable struct Map
         landmarks::Array{Landmark}
         Map(landmarks=[]) = new(landmarks)
     end
 
-    @with_kw mutable struct IdealCamera
+    mutable struct IdealCamera <: Camera
         map::Map
         distance_range::Array{Float64}
         direction_range::Array{Float64}
@@ -30,7 +31,7 @@ module RobotWorld
         IdealCamera(map, distance_range=[0.5 6.0], direction_range=[-pi/3 pi/3], lastdata=[]) = new(map, distance_range, direction_range, lastdata)
     end
 
-    @with_kw mutable struct IdealRobot
+    mutable struct IdealRobot <: Robot
         pose::Array{Float64}
         color::Symbol
         r::Float64
@@ -40,11 +41,11 @@ module RobotWorld
         IdealRobot(pose, color, r, agent, sensor=IdealCamera(Map()), poses=[pose]) = new(pose, color, r, agent, sensor, poses)
     end
 
-    @with_kw mutable struct World
+    mutable struct World
         time_span::Float64
         time_interval::Float64
         fps::Int64
-        objects::Array{Union{IdealRobot, Map}}
+        objects::Array{Union{Robot, Map}}
         World(time_span, time_interval, fps=10, objects=[]) = new(time_span, time_interval, fps, objects)
     end
 
@@ -62,7 +63,7 @@ module RobotWorld
         observed = Dict()
         for lm in self.map.landmarks
             observation = observation_function(self, cam_pose, lm.pos)
-            
+                
             if visible(self, observation)
                 observed[lm.id] = deepcopy(observation)
             end
@@ -99,7 +100,7 @@ module RobotWorld
         end
     end
 
-    function append(self::World, obj::IdealRobot)
+    function append(self::World, obj::Robot)
         push!(self.objects, deepcopy(obj))
     end
 
@@ -138,7 +139,7 @@ module RobotWorld
         
     end
 
-    function draw(self::IdealRobot, plt)
+    function draw(self::Robot, plt)
         x, y, theta = self.pose
         xn = x + self.r * cos(theta)
         yn = y + self.r * sin(theta)
