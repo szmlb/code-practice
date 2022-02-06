@@ -49,7 +49,7 @@ module RobotWorld
         World(time_span, time_interval, fps=10, objects=[]) = new(time_span, time_interval, fps, objects)
     end
 
-    function visible(self::IdealCamera, observation=[]) # ランドマークが計測できる条件
+    function visible(self::Camera, observation=[]) # ランドマークが計測できる条件
         if isempty(observation) 
             return false
         end
@@ -59,7 +59,7 @@ module RobotWorld
         return is_visible
     end
 
-    function data(self::IdealCamera, cam_pose)
+    function data(self::Camera, cam_pose)
         observed = Dict()
         for lm in self.map.landmarks
             observation = observation_function(self, cam_pose, lm.pos)
@@ -73,7 +73,7 @@ module RobotWorld
         return observed
     end
 
-    function observation_function(self::IdealCamera, cam_pose, obj_pos)
+    function observation_function(self::Camera, cam_pose, obj_pos)
         diff = obj_pos - cam_pose[1:2]
         phi = atan(diff[2], diff[1]) - cam_pose[3]      
     
@@ -164,7 +164,7 @@ module RobotWorld
         end
     end
 
-    function draw(self::IdealCamera, cam_pose, plt)
+    function draw(self::Camera, cam_pose, plt)
         for (key, value) in self.lastdata
             x, y, theta = cam_pose
             distance = value[1] 
