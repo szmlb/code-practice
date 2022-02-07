@@ -28,7 +28,7 @@ module RobotWorld
         distance_range::Array{Float64}
         direction_range::Array{Float64}
         lastdata
-        IdealCamera(map, distance_range=[0.5 6.0], direction_range=[-pi/3 pi/3], lastdata=[]) = new(map, distance_range, direction_range, lastdata)
+        IdealCamera(map, distance_range=[0.5, 6.0], direction_range=[-pi/3, pi/3], lastdata=[]) = new(map, distance_range, direction_range, lastdata)
     end
 
     mutable struct IdealRobot <: Robot
@@ -84,7 +84,7 @@ module RobotWorld
             phi = phi + 2*pi
         end
     
-        return [hypot(diff...) phi]
+        return [hypot(diff...), phi]
     end
 
     function decision(agent::Agent, observation=0)
