@@ -2,14 +2,15 @@ module RobotWorld
 
     abstract type Robot end
     abstract type Camera end
+    abstract type Agent end
 
     using Plots
     using Printf
 
-    mutable struct Agent
+    mutable struct IdealAgent <: Agent
         nu::Float64
         omega::Float64
-        Agent(nu, omega) = new(nu, omega)
+        IdealAgent(nu, omega) = new(nu, omega)
     end
 
     mutable struct Landmark
@@ -35,7 +36,7 @@ module RobotWorld
         pose::Array{Float64}
         color::Symbol
         r::Float64
-        agent::Agent
+        agent::IdealAgent
         sensor::IdealCamera
         poses::Array{Array{Float64}}
         IdealRobot(pose, color, r, agent, sensor=IdealCamera(Map()), poses=[pose]) = new(pose, color, r, agent, sensor, poses)
@@ -211,9 +212,9 @@ if abspath(PROGRAM_FILE) == @__FILE__
     RobotWorld.append(world, m)
 
     ### ロボットを作る ###
-    straight = RobotWorld.Agent(0.2, 0.0)
-    circling = RobotWorld.Agent(0.2, 10.0/180.0*pi)
-    stationary = RobotWorld.Agent(0.0, 0.0)
+    straight = RobotWorld.IdealAgent(0.2, 0.0)
+    circling = RobotWorld.IdealAgent(0.2, 10.0/180.0*pi)
+    stationary = RobotWorld.IdealAgent(0.0, 0.0)
     robot1 = RobotWorld.IdealRobot([2, 3, pi/6], :black, 0.2, straight, RobotWorld.IdealCamera(m))
     robot2 = RobotWorld.IdealRobot([-2, -1, pi/5*6], :red, 0.2, circling, RobotWorld.IdealCamera(m))
 

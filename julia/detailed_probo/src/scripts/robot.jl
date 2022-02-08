@@ -5,7 +5,7 @@ module RealRobotWorld
     using Distributions
 
     include("./ideal_robot.jl")
-    using .RobotWorld: Agent, Landmark, Map, Camera, Robot, World
+    using .RobotWorld: IdealAgent, Agent, Landmark, Map, Camera, Robot, World
     using .RobotWorld: data, decision, state_transition, circle_shape, draw, append
     using .RobotWorld: observation_function, visible
 
@@ -257,8 +257,8 @@ if abspath(PROGRAM_FILE) == @__FILE__
     RealRobotWorld.append(world, m)
 
     ### ロボットを作る ###
-    circling = RealRobotWorld.Agent(0.2, 10.0/180.0*pi)
-    stationary = RobotWorld.Agent(0.0, 0.0)
+    circling = RealRobotWorld.IdealAgent(0.2, 10.0/180.0*pi)
+    stationary = RealRobotWorld.IdealAgent(0.0, 0.0)
     r = RealRobotWorld.RealRobot([0, 0, 0], :gray, 0.2, circling, sensor=RealRobotWorld.RealCamera(m, phantom_prob=0.1, oversight_prob=0.1, occlusion_prob=0.1))
 
     RealRobotWorld.append(world, r)
