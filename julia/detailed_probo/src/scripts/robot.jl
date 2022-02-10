@@ -1,13 +1,12 @@
-
 module RealRobotWorld
 
     using Plots
     using Distributions
 
     include("./ideal_robot.jl")
-    using .RobotWorld: IdealAgent, Agent, Landmark, Map, Camera, Robot, World
-    using .RobotWorld: data, decision, state_transition, circle_shape, draw, append
-    using .RobotWorld: observation_function, visible
+    import .RobotWorld: IdealAgent, Agent, Landmark, Map, IdealCamera, Camera, IdealRobot, Robot, World
+    import .RobotWorld: data, decision, state_transition, circle_shape, draw, append, one_step
+    import .RobotWorld: observation_function, visible
 
     mutable struct RealCamera <: Camera
         map::Map
@@ -98,7 +97,7 @@ module RealRobotWorld
         end
     end
 
-    function RobotWorld.data(self::RealCamera, cam_pose)
+    function data(self::RealCamera, cam_pose)
         observed = Dict()
         for lm in self.map.landmarks
             observation = observation_function(self, cam_pose, lm.pos)       
@@ -228,11 +227,11 @@ module RealRobotWorld
         end
     end
 
-    function RobotWorld.append(self::World, obj::RealRobot)
+    function append(self::World, obj::RealRobot)
         push!(self.objects, deepcopy(obj))
     end
 
-    function RobotWorld.one_step(self::RealRobot, time_interval)
+    function one_step(self::RealRobot, time_interval)
         obs = data(self.sensor, self.pose)
         nu, omega = decision(self.agent, obs)
         nu, omega = bias(self, nu, omega)
