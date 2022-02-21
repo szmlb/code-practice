@@ -1,5 +1,7 @@
 module MclWorld
 
+abstract type Estimator end
+
 using Plots
 using Distributions
 using StatsBase
@@ -52,7 +54,7 @@ function observation_update(self::Particle, observation, map, distance_dev_rate,
     end
 end
 
-mutable struct Mcl
+mutable struct Mcl <: Estimator
     init_pose::Array{Float64}
     num::Int64
     map::Map
@@ -93,7 +95,7 @@ mutable struct Mcl
 
 end
 
-function set_ml(self::Mcl)
+function set_ml(self::Estimator)
     i = argmax([p.weight for p in self.particles])
     self.ml = self.particles[i]
     self.pose = self.ml.pose
@@ -108,7 +110,7 @@ function draw(self::Mcl, plt)
     quiver!(plt, xs, ys, quiver=(scale*vxs, scale*vys), c=:orange)
 end
 
-function motion_update(self::Mcl, nu, omega, time)
+function motion_update(self::Estimator, nu, omega, time)
     for p in self.particles
        motion_update(p, nu, omega, time, self.motion_noise_rate_pdf) 
     end
@@ -164,7 +166,7 @@ mutable struct EstimationAgent <: Agent
     time_interval::Float64
     nu::Float64
     omega::Float64
-    estimator::Mcl
+    estimator::Estimator
     prev_nu::Float64
     prev_omega::Float64
 
