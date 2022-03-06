@@ -101,7 +101,7 @@ function set_ml(self::Estimator)
     self.pose = self.ml.pose
 end
 
-function draw(self::Mcl, plt)    
+function draw(self::Estimator, plt)    
     xs = [p.pose[1] for p in self.particles]
     ys = [p.pose[2] for p in self.particles]
     vxs = [cos(p.pose[3])*p.weight*length(self.particles) for p in self.particles]
@@ -116,7 +116,7 @@ function motion_update(self::Estimator, nu, omega, time)
     end
 end
 
-function observation_update(self::Mcl, observation)
+function observation_update(self::Estimator, observation)
     for p in self.particles
         observation_update(p, observation, self.map, self.distance_dev_rate, self.direction_dev)
     end
@@ -124,7 +124,7 @@ function observation_update(self::Mcl, observation)
     resampling_system(self)
 end
 
-function resampling_random_choise(self::Mcl)
+function resampling_random_choise(self::Estimator)
     ws = [e.weight for e in self.particles]
     if sum(ws) < 1e-100
         ws = [e + 1e-100 for e in ws]
@@ -136,7 +136,7 @@ function resampling_random_choise(self::Mcl)
     end    
 end
 
-function resampling_system(self::Mcl)
+function resampling_system(self::Estimator)
     ws = cumsum([e.weight for e in self.particles])
     if sum(ws) < 1e-100
         ws = [e + 1e-100 for e in ws]
@@ -219,8 +219,7 @@ function draw(self::EstimationAgent, plt)
     draw(self.estimator, plt)
 
     x, y, t = self.estimator.pose
-    plot!(plt, annotation = (x, y-0.5, @sprintf("(%2.1f, %2.1f, %2.1f)", x, y, t*180/pi), :black))
-
+    plot!(plt, annotation = (x, y-0.5, @sprintf("(%2.1f, %2.1f, %2.1f)", x, y, t*180/pi), :black))    
 end
 
 end

@@ -104,16 +104,19 @@ function state_transition(nu, omega, time, pose)
 end
 
 function append(self::World, obj::Robot)
-    push!(self.objects, deepcopy(obj))
+    #push!(self.objects, deepcopy(obj))
+    push!(self.objects, obj)
 end
 
 function append(self::World, obj::Map)
-    push!(self.objects, deepcopy(obj))
+    #push!(self.objects, deepcopy(obj))
+    push!(self.objects, obj)
 end
 
 function append(self::Map, landmark::Landmark)
     landmark.id = length(self.landmarks) + 1
-    push!(self.landmarks, deepcopy(landmark))
+    #push!(self.landmarks, deepcopy(landmark))
+    push!(self.landmarks, landmark)
 end
 
 function circle_shape(x, y, r)

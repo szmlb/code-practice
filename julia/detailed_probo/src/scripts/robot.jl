@@ -229,10 +229,6 @@ function kidnap(self::RealRobot, pose, time_interval)
     end
 end
 
-function append(self::World, obj::RealRobot)
-    push!(self.objects, deepcopy(obj))
-end
-
 function one_step(self::RealRobot, time_interval)
     obs = data(self.sensor, self.pose)
     nu, omega = decision(self.agent, obs)
