@@ -10,7 +10,7 @@ Logging.disable_logging(Logging.Info)
 
 include("../scripts/mcl.jl")
 import .MclWorld: RealRobot, RealCamera
-import .MclWorld: EstimationAgent, IdealAgent, Agent, Landmark, Map, Camera, Robot, World
+import .MclWorld: EstimationAgent, IdealAgent, Agent, TrueLandmark, Landmark, Map, Camera, Robot, World
 import .MclWorld: data, decision, state_transition, circle_shape, draw, append
 import .MclWorld: observation_function
 import .MclWorld: Estimator, Mcl, motion_update, observation_update

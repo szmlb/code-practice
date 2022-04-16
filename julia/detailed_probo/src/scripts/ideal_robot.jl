@@ -3,6 +3,7 @@ module RobotWorld
 abstract type Robot end
 abstract type Camera end
 abstract type Agent end
+abstract type Landmark end
 
 using Plots
 using Printf
@@ -15,10 +16,10 @@ mutable struct IdealAgent <: Agent
     IdealAgent(nu, omega) = new(nu, omega)
 end
 
-mutable struct Landmark
+mutable struct TrueLandmark <: Landmark
     pos::Array{Float64}
     id::Int64
-    Landmark(pos, id=-1) = new(pos, id)
+    TrueLandmark(pos, id=-1) = new(pos, id)
 end
 
 mutable struct Map
@@ -56,7 +57,7 @@ function visible(self::Camera, observation=[]) # ランドマークが計測で�
     if isempty(observation) 
         return false
     end
-    
+
     is_visible = self.distance_range[1] <= observation[1] <= self.distance_range[2] && self.direction_range[1] <= observation[2] <= self.direction_range[2]
 
     return is_visible
@@ -66,7 +67,7 @@ function data(self::Camera, cam_pose)
     observed = Dict()
     for lm in self.map.landmarks
         observation = observation_function(cam_pose, lm.pos)
-            
+
         if visible(self, observation)
             observed[lm.id] = deepcopy(observation)
         end
@@ -142,7 +143,7 @@ function draw(self::World)
         one_step(self, i, plt, anim)
     end    
     gif(anim, fps = self.fps)
-    
+
 end
 
 function draw(self::Robot, plt)
@@ -150,14 +151,14 @@ function draw(self::Robot, plt)
     xn = x + self.r * cos(theta)
     yn = y + self.r * sin(theta)
     push!(self.poses, deepcopy(self.pose))
-    
+
     plot!(plt, [x, xn], [y, yn], c=self.color, label="")
     plot!(plt, circle_shape(x, y, self.r), seriestype=[:shape,], c=self.color, linecolor=:black, fillalpha=0.2, aspectratio=1, label="")
     plot!(plt, [p[1] for p in self.poses], [p[2] for p in self.poses], c=self.color, label="") 
 
     if length(self.sensor.map.landmarks) > 0
         draw(self.sensor, self.poses[end-1], plt) #1ステップ前の姿勢を使用; self.sensor.lastdataに対応させるため
-    end   
+    end
 end
 
 function draw(self::Landmark, plt)
@@ -175,10 +176,10 @@ function draw(self::Camera, cam_pose, plt)
         x, y, theta = cam_pose
         distance = value[1] 
         direction = value[2]
-            
+
         lx = x + distance * cos(direction + theta)
         ly = y + distance * sin(direction + theta)
-    
+
         xx = LinRange(x, lx, 3)
         yy = LinRange(y, ly, 3)
         plot!(plt, xx, yy, color=:pink, label="")

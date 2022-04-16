@@ -5,8 +5,8 @@ using Distributions
 using Logging
 Logging.disable_logging(Logging.Info)
 
-include("./ideal_robot.jl")
-import .RobotWorld: IdealAgent, Agent, Landmark, Map, IdealCamera, Camera, IdealRobot, Robot, World
+include("../scripts/ideal_robot.jl")
+import .RobotWorld: IdealAgent, Agent, TrueLandmark, Landmark, Map, Camera, IdealRobot, Robot, World
 import .RobotWorld: data, decision, state_transition, circle_shape, draw, append, one_step
 import .RobotWorld: observation_function, visible
 
@@ -222,7 +222,7 @@ function kidnap(self::RealRobot, pose, time_interval)
     self.time_until_kidnap = self.time_until_kidnap - time_interval
     if self.time_until_kidnap <= 0.0
         self.time_until_kidnap = self.time_until_kidnap + rand(self.kidnap_pdf)
-            
+
         return rand.(self.kidnap_dist)
     else
         return pose

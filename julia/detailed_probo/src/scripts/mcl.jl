@@ -12,7 +12,7 @@ Logging.disable_logging(Logging.Info)
 
 include("../scripts/robot.jl")
 import .RealRobotWorld: RealRobot, RealCamera
-import .RealRobotWorld: IdealAgent, Agent, Landmark, Map, Camera, Robot, World
+import .RealRobotWorld: IdealAgent, Agent, TrueLandmark, Landmark, Map, Camera, Robot, World
 import .RealRobotWorld: data, decision, state_transition, circle_shape, draw, append
 import .RealRobotWorld: observation_function
 
@@ -234,9 +234,9 @@ if abspath(PROGRAM_FILE) == @__FILE__
 
         ### 地図を生成して３つランドマークを追加 ###
         m = MclWorld.Map()
-        MclWorld.append(m, MclWorld.Landmark([-4, 2]))
-        MclWorld.append(m, MclWorld.Landmark([2, -3]))
-        MclWorld.append(m, MclWorld.Landmark([3, 3]))
+        MclWorld.append(m, MclWorld.TrueLandmark([-4, 2]))
+        MclWorld.append(m, MclWorld.TrueLandmark([2, -3]))
+        MclWorld.append(m, MclWorld.TrueLandmark([3, 3]))
         MclWorld.append(world, m)
         
         initial_pose = [0, 0, 0]
