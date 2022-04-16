@@ -1,6 +1,7 @@
 module MclWorld
 
 abstract type Estimator end
+abstract type Particle end
 
 using Plots
 using Distributions
@@ -16,11 +17,11 @@ import .RealRobotWorld: IdealAgent, Agent, TrueLandmark, Landmark, Map, Camera, 
 import .RealRobotWorld: data, decision, state_transition, circle_shape, draw, append
 import .RealRobotWorld: observation_function
 
-mutable struct Particle
+mutable struct StateParticle <: Particle
     pose::Array{Float64}
     weight::Float64
 
-    function Particle(
+    function StateParticle(
         pose,
         weight)
 
@@ -69,7 +70,7 @@ mutable struct Mcl <: Estimator
         init_pose,
         num;
         map=Map(),
-        particles=[Particle(init_pose, 1.0/num) for i in 1:num],
+        particles=[StateParticle(init_pose, 1.0/num) for i in 1:num],
         distance_dev_rate=0.14,
         direction_dev=0.05,
         motion_noise_stds=Dict([("nn", 0.19), ("no", 0.001), ("on", 0.13), ("oo", 0.2)]),
@@ -219,7 +220,7 @@ function draw(self::EstimationAgent, plt)
     draw(self.estimator, plt)
 
     x, y, t = self.estimator.pose
-    plot!(plt, annotation = (x, y-0.5, @sprintf("(%2.1f, %2.1f, %2.1f)", x, y, t*180/pi), :black))    
+    plot!(plt, annotation = (x, y-0.5, @sprintf("(%2.1f, %2.1f, %2.1f)", x, y, t*180/pi), :black))
 end
 
 end
