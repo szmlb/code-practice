@@ -4,3 +4,6 @@
 [submodule "julia/algorithms_in_julia"]
 	path = julia/algorithms_in_julia
 	url = https://github.com/szmlb/algorithmsInJulia.git
+[submodule "julia/deep-learning-from-scratch-jl"]
+	path = julia/deep-learning-from-scratch-jl
+	url = https://github.com/szmlb/deep-learning-from-scratch-jl.git
