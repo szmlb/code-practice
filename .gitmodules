@@ -13,3 +13,6 @@
 [submodule "julia/ovm"]
 	path = julia/ovm
 	url = https://github.com/szmlb/OVM.git
+[submodule "julia/nc_jl"]
+	path = julia/nc_jl
+	url = https://github.com/szmlb/NC-jl.git
