@@ -1,0 +1,3 @@
+[submodule "julia/algorithm_dictionary"]
+	path = julia/algorithm_dictionary
+	url = https://github.com/szmlb/AlgorithmDictionary.git
