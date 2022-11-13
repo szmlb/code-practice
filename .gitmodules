@@ -7,3 +7,6 @@
 [submodule "julia/deep-learning-from-scratch-jl"]
 	path = julia/deep-learning-from-scratch-jl
 	url = https://github.com/szmlb/deep-learning-from-scratch-jl.git
+[submodule "julia/prml-jl"]
+	path = julia/prml-jl
+	url = https://github.com/szmlb/PRML-jl.git
