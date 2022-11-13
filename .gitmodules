@@ -10,3 +10,6 @@
 [submodule "julia/prml-jl"]
 	path = julia/prml_jl
 	url = https://github.com/szmlb/PRML-jl.git
+[submodule "julia/ovm"]
+	path = julia/ovm
+	url = https://github.com/szmlb/OVM.git
