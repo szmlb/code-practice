@@ -3,6 +3,16 @@
 #include <random>
 #include <tabulate/tabulate.hpp>
 #include <thread>
+#include <sstream>
+
+template <typename T>
+std::string to_string_with_precision(const T a_value, const int n = 4)
+{
+    std::ostringstream out;
+    out.precision(n);
+    out << std::fixed << a_value;
+    return out.str();
+}
 
 using namespace tabulate;
 using Row_t = Table::Row_t;
@@ -24,18 +34,18 @@ int main() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0, 1);
-    process_table.add_row(Row_t{"Component", "ID", "position [deg]", "velocity [deg/sec]", "torque [Nm]", "servo on/off"});
+    process_table.add_row(Row_t{"Component", "ID", "position\n""[deg]", "velocity\n""[deg/s]", "torque\n""[Nm]", "Operation\n""enabled"});
     process_table.add_row(Row_t{"Arm", 
                                 std::to_string((int)0),
-                                std::to_string(0.05),
-                                std::to_string(0.05), 
-                                std::to_string(0.05), 
+                                to_string_with_precision(0.05, 3),
+                                to_string_with_precision(0.05, 4), 
+                                to_string_with_precision(0.05, 5), 
                                 std::to_string((int)true)});
     process_table.add_row(Row_t{"Arm", 
                                 std::to_string((int)1),
-                                std::to_string(0.05),
-                                std::to_string(0.05), 
-                                std::to_string(0.05), 
+                                to_string_with_precision(0.05, 3),
+                                to_string_with_precision(0.05, 4), 
+                                to_string_with_precision(0.05, 5), 
                                 std::to_string((int)true)});
 
     process_table.column(2).format().font_align(FontAlign::right);
@@ -47,6 +57,7 @@ int main() {
                 .format()
                 .font_color(Color::yellow)
                 .font_align(FontAlign::center)
+                .width(12)
                 .font_style({FontStyle::bold});
     }
 
