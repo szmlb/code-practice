@@ -35,17 +35,17 @@ int main() {
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0, 1);
     process_table.add_row(Row_t{"Component", "ID", "position\n""[deg]", "velocity\n""[deg/s]", "torque\n""[Nm]", "Operation\n""enabled"});
-    process_table.add_row(Row_t{"Arm", 
+    process_table.add_row(Row_t{"Arm",
                                 std::to_string((int)0),
                                 to_string_with_precision(0.05, 3),
-                                to_string_with_precision(0.05, 4), 
-                                to_string_with_precision(0.05, 5), 
+                                to_string_with_precision(0.05, 4),
+                                to_string_with_precision(0.05, 5),
                                 std::to_string((int)true)});
-    process_table.add_row(Row_t{"Arm", 
+    process_table.add_row(Row_t{"Arm",
                                 std::to_string((int)1),
                                 to_string_with_precision(0.05, 3),
-                                to_string_with_precision(0.05, 4), 
-                                to_string_with_precision(0.05, 5), 
+                                to_string_with_precision(0.05, 4),
+                                to_string_with_precision(0.05, 5),
                                 std::to_string((int)true)});
 
     process_table.column(2).format().font_align(FontAlign::right);
@@ -68,7 +68,10 @@ int main() {
     }
     std::cout << process_table << std::endl;
     std::cout << "Press ENTER to exit..." << std::endl;
+    std::cout << "\033[F\033[F\033[F\033[F\033[F\033[F\033[F\033[F\033[F";
+
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
   }
   tUserInput.join();
 
