@@ -47,7 +47,7 @@ public:
     }
     virtual ~StateManager() = default;
 
-    void addState(const std::shared_ptr<State>& state)
+    void addState(std::shared_ptr<State>&& state)
     {
         states_[state->getState()] = state;
     }

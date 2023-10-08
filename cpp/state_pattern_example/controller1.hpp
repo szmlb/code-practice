@@ -92,27 +92,22 @@ class Controller1 : public ControllerBase
             {
                 std::shared_ptr<StateOff> state = std::make_shared<StateOff>();
                 state->setController(this);
-                states_.push_back(state);
-                stateManager_->addState(states_.back());
+                stateManager_->addState(state);
             }
             // Add READY state
             {
                 std::shared_ptr<StateReady> state = std::make_shared<StateReady>();
                 state->setController(this);
-                states_.push_back(state);
-                stateManager_->addState(states_.back());
+                stateManager_->addState(state);
             }
             // Add RUNNING state
             {
                 std::shared_ptr<StateRunning> state = std::make_shared<StateRunning>();
                 state->setController(this);
-                states_.push_back(state);
-                stateManager_->addState(states_.back());
+                stateManager_->addState(state);
             }
 
             // Set OFF state as initial state
             stateManager_->setInitialState(STATE::OFF);
         }
-    private:
-        std::vector<std::shared_ptr<State>> states_;
 };
