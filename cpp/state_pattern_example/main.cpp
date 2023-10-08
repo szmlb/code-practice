@@ -10,21 +10,28 @@ int main() {
     controllers[CONTROLLER::CNTR1]->createStateManager();
     std::shared_ptr<Controller> controller;
 
+    controller = controllers[CONTROLLER::CNTR1];
+    state = STATE::OFF;
     for (int i = 0; i < 100; ++i)
     {
         // High-level state manager (and also switches controller)
-        controller = controllers[CONTROLLER::CNTR1];
         if (i < 20)
         {
             state = STATE::OFF;
         }
         else if(i < 60)
         {
-            state = STATE::READY;
+            if (controller->isReadyToExit())
+            {
+                state = STATE::READY;
+            }
         }
         else
         {
-            state = STATE::RUNNING;
+            if (controller->isReadyToExit())
+            {
+                state = STATE::RUNNING;
+            }
         }
 
         switch(state) {

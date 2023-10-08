@@ -11,8 +11,6 @@ enum class STATE
     NOT_DEFINED
 };
 
-class Controller;
-
 class State 
 {
 public:
@@ -27,14 +25,15 @@ public:
 class StateBase: public State
 {
 public:
+    StateBase():isReadyToExit_(false) {}
     virtual void entry() override {}
     virtual void doActivity() override {}
     virtual void exit() override {}
     virtual bool isReadyToExit() override {return isReadyToExit_;}
-    virtual STATE getState() override {return state_;}
+    virtual STATE getState() override {return stateLabel_;}
     
 protected:
-    STATE state_;
+    STATE stateLabel_;
     bool isReadyToExit_;
 };
 

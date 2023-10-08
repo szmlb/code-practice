@@ -10,7 +10,7 @@ public:
 
     StateOff()
     {
-        state_ = STATE::OFF;
+        stateLabel_ = STATE::OFF;
     }
 
     void entry() override {
@@ -19,10 +19,12 @@ public:
 
     void doActivity() override {
         std::cout << "Controller1 OFF::doActivity() called." << std::endl;
+        isReadyToExit_ = true;
     }
 
     void exit() override {
         std::cout << "Controller1 OFF::exit() called." << std::endl;
+        isReadyToExit_ = false;
     }
 private:
     Controller1* controller_;
@@ -34,7 +36,7 @@ public:
 
     StateReady()
     {
-        state_ = STATE::READY;
+        stateLabel_ = STATE::READY;
     };
 
     void entry() override {
@@ -43,10 +45,12 @@ public:
 
     void doActivity() override {
         std::cout << "Controller1 READY::doActivity() called." << std::endl;
+        isReadyToExit_ = true;
     }
 
     void exit() override {
         std::cout << "Controller1 READY::exit() called." << std::endl;
+        isReadyToExit_ = false;
     }
 private:
     Controller1* controller_;
@@ -58,7 +62,7 @@ public:
 
     StateRunning()
     {
-        state_ = STATE::RUNNING;
+        stateLabel_ = STATE::RUNNING;
     };
 
     void entry() override {
@@ -67,10 +71,12 @@ public:
 
     void doActivity() override {
         std::cout << "Controller1 RUNNING::doActivity() called." << std::endl;
+        isReadyToExit_ = true;
     }
 
     void exit() override {
         std::cout << "Controller1 RUNNING::exit() called." << std::endl;
+        isReadyToExit_ = false;
     }
 private:
     Controller1* controller_;
