@@ -1,9 +1,6 @@
-use std::convert::TryInto;
-
 use common;
 
 fn main() {
-
 
     let value = vec![500, 100, 50, 10, 5, 1];
 
@@ -23,11 +20,12 @@ fn main() {
     for val in data_a.iter() { println!("{}", val);}
 
     // Greedy method
-    let result = 0;
+    let mut result = 0;
+    let mut x_updated = x;
     for i in 0..num
     {
         // The number of coin in case with no number limit
-        let add = x / value[i];
+        let mut add = x_updated / value[i];
 
         // Considering the number limit
         if add > data_a[i]
@@ -35,11 +33,13 @@ fn main() {
             add = data_a[i];
         }
 
+        println!("Coin: {}, number of coins added: {}", value[i], add);
+
         // Calculate the rest of cost and add number of coins
-        x = x - value[i] * add;
+        x_updated = x_updated - value[i] * add;
         result = result + add; 
     }
 
-    println!("{}", result);
+    println!("Total number of coins needed: {}", result);
 
 }
